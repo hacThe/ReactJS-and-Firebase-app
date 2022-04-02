@@ -4,20 +4,33 @@ import { auth, db } from "../firebase-config";
 
 function Home({ isAuth }) {
   const [postLists, setPostList] = useState([]);
+  const [reload, setReload] = useState(true);
   const postsCollectionRef = collection(db, "posts");
 
   const deletePost = async (id) => {
     const postDoc = doc(db, "posts", id);
     await deleteDoc(postDoc);
+    console.log(deleteDoc)
+    // window.location.reload()
+
   };
+  // useEffect(() => {
+  //   const getPosts = async () => {
+  //     const data = await getDocs(postsCollectionRef);
+  //     setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  //   };
+
+  //   getPosts();
+  // }, []);
   useEffect(() => {
     const getPosts = async () => {
       const data = await getDocs(postsCollectionRef);
       setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      console.log(data)
     };
 
     getPosts();
-  }, [deletePost]);
+  }, []);
 
   
   return (
